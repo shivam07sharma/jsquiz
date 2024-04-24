@@ -7,8 +7,9 @@ document.getElementById('star').addEventListener('click', () => {
     answer();
 
 }); var userselect = 'x';
+
+var incorr=0;
 var scor = 0;
-var ansid;
 function getAnswer() {
     var radioButtons = document.getElementsByName('x');
     for (var i = 0; i < radioButtons.length; i++) {
@@ -23,12 +24,12 @@ function getAnswer() {
             break;
         }
     }
-}
+};
 let elements = document.getElementsByClassName('op');
 
 for (var i = 0; i < elements.length; i++) {
     elements[i].addEventListener("click", getAnswer);
-
+    
 }
 
 
@@ -311,9 +312,17 @@ const Quess = {
 
 
 const getQuestion = () => {
+incorr=0;
+
 
     count = count + 1;
-    //document.querySelector(`#${Quess[count].ans}${Quess[count].ans}`).style.backgroundColor = " rgb(72, 72, 73)";
+    document.querySelector("#quesNo").innerHTML=`${count}/25`;
+    if(count>25){
+        document.querySelector('#container').style.display = "none";
+        document.querySelector('#result').style.display = "flex";
+        document.querySelector('#finalScore').innerHTML = `${scor}/25`;
+    }
+
     document.querySelector("#quest").innerHTML = `${Quess[count].quest}`;
     document.querySelector(`.opta`).innerHTML = `${Quess[count].a}`;
     document.querySelector(`.optb`).innerHTML = `${Quess[count].b}`;
@@ -333,12 +342,17 @@ document.querySelector('#next').addEventListener('click', () => {
 
 function answer() {
 
-    if (userselect == Quess[count].ans) {
+    if (userselect == Quess[count].ans && scor<count && incorr<=0) {
+        
         scor = scor + 1;
         document.querySelector('.score').innerHTML = `SCORE : ${scor}`;
+      
+    }
+    else if(userselect != Quess[count].ans && count>1){
+incorr=1;
     }
 
-}
+   }
 
 
 function colorch() {
